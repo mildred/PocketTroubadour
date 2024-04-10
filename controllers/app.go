@@ -7,14 +7,11 @@ import (
 
 type AppContext struct {
 	Views *template.Template
+	PublicFS http.FileSystem
 }
 
-func Routes(assets http.FileSystem, views *template.Template) http.Handler {
-	assets_handler := http.FileServer(assets)
-
-	app := &AppContext{
-		Views: views,
-	}
+func (app *AppContext) Routes() http.Handler {
+	assets_handler := http.FileServer(app.PublicFS)
 
 	mux := http.NewServeMux()
 	mux.Handle("/tuto", &TutoController{app})

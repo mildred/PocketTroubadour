@@ -10,6 +10,6 @@ type TutoController struct {
 
 func (c *TutoController) ServeHTTP(w http.ResponseWriter, r *http.Request){
 	var data struct{}
-	c.Views.Lookup("views/tuto.html").Execute(w, data)
+	c.Views.Lookup("tuto.html").Execute(w, data)
 }
 

@@ -10,5 +10,5 @@ type IndexController struct {
 
 func (c *IndexController) ServeHTTP(w http.ResponseWriter, r *http.Request){
 	var data struct{}
-	c.Views.Lookup("views/index.html").Execute(w, data)
+	c.Views.Lookup("index.html").Execute(w, data)
 }
