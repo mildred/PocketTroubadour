@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"net/http"
-	"html/template"
 )
 
-func Index(w http.ResponseWriter, r *http.Request){
+type IndexController struct {
+	*AppContext
+}
+
+func (c *IndexController) ServeHTTP(w http.ResponseWriter, r *http.Request){
 	var data struct{}
-	tmpl := template.Must(template.ParseFiles("index.html"))
-	tmpl.Execute(w,data)
+	c.Views.Lookup("views/index.html").Execute(w, data)
 }

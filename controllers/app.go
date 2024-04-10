@@ -1,21 +1,29 @@
-package app
+package controllers
 
 import (
 	"net/http"
-
-	"github.com/EmaNymton123/PocketTroubadour/controllers"
+	"html/template"
 )
 
-func Routes(assets http.FileSystem) http.Handler{
+type AppContext struct {
+	Views *template.Template
+}
+
+func Routes(assets http.FileSystem, views *template.Template) http.Handler {
 	assets_handler := http.FileServer(assets)
 
+	app := &AppContext{
+		Views: views,
+	}
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/tuto", controllers.Tuto)
+	mux.Handle("/tuto", &TutoController{app})
 	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
 		// The "/" pattern matches everything, so we need to check
 		// that we're at the root here.
 		if req.URL.Path == "/" {
-			controllers.Index(w, req)
+			index := &IndexController{app}
+			index.ServeHTTP(w, req)
 			return
 		}
 
@@ -23,8 +31,10 @@ func Routes(assets http.FileSystem) http.Handler{
 
 		// Custom 404 error solution:
 		// https://stackoverflow.com/questions/47285119/how-to-custom-handle-a-file-not-being-found-when-using-go-static-file-server
-		// controllers.Error404(w, req)
+		// Error404(w, req)
 	})
 	return mux
 }
+
+
 
