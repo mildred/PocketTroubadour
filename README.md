@@ -1,2 +1,5 @@
 Bonjour.
-Deux ou trois trucs.
+Deux ou trois truc
+
+
+    go build . && ./PocketTroubadour
